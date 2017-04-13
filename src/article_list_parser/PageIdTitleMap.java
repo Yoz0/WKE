@@ -1,3 +1,5 @@
+package article_list_parser;
+
 /* 
  * Computing Wikipedia's internal PageRanks
  * 
@@ -109,7 +111,7 @@ final class PageIdTitleMap {
 				String line = in.readLine();
 				if (line == null)
 					break;
-				result.put(line, new Integer(in.readLine()));
+				result.put(line, new Integer(0));
 				
 				if (System.currentTimeMillis() - lastPrint >= PRINT_INTERVAL) {
 					System.out.printf("\rReading %s: %.3f million entries...", file.getName(), i / 1000000.0);
@@ -131,9 +133,10 @@ final class PageIdTitleMap {
 			int i = 0;
 			long lastPrint = System.currentTimeMillis() - PRINT_INTERVAL;
 			for (String title : idByTitle.keySet()) {
-				out.println(title);
-				out.println(idByTitle.get(title));
-				i++;
+				if(title != ""){
+					out.println(title);
+					i++;
+				}
 				
 				if (System.currentTimeMillis() - lastPrint >= PRINT_INTERVAL) {
 					System.out.printf("\rWriting %s: %.3f million entries...", file.getName(), i / 1000000.0);

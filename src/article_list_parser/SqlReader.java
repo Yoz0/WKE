@@ -1,3 +1,5 @@
+package article_list_parser;
+
 /* 
  * Computing Wikipedia's internal PageRanks
  * 

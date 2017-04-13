@@ -1,3 +1,5 @@
+package article_list_parser;
+
 /* 
  *
  * Parse 
@@ -38,32 +40,14 @@ public final class ParseWiki {
 	private static final File PAGE_ID_TITLE_SQL_FILE = new File("frwiki-latest-page.sql.gz");           // Original input file
 	private static final File PAGE_ID_TITLE_RAW_FILE = new File("wikipedia-page-id-title.raw");  // Cache after preprocessing
 	
-	private static final File PAGE_LINKS_SQL_FILE = new File("frwiki-latest-pagelinks.sql.gz");   // Original input file
-	private static final File PAGE_LINKS_RAW_FILE = new File("wikipedia-page-links.raw");  // Cache after preprocessing
-	
-	private static final File INDEX_RAW_FILE = new File("wikipedia-linked.raw");  // Output file
-	
 	
 	/*---- Main program ----*/
 	
 	public static void main(String[] args) throws IOException {
-		// Read page-ID-title data
+		// Create and write page-ID-title data
 		Map<String,Integer> titleToId;
-		if (!PAGE_ID_TITLE_RAW_FILE.isFile()) {  // Read SQL and write cache
-			titleToId = PageIdTitleMap.readSqlFile(PAGE_ID_TITLE_SQL_FILE);
-			PageIdTitleMap.writeRawFile(titleToId, PAGE_ID_TITLE_RAW_FILE);
-		} else  // Read cache
-			titleToId = PageIdTitleMap.readRawFile(PAGE_ID_TITLE_RAW_FILE);
-		Map<Integer,String> idToTitle = PageIdTitleMap.computeReverseMap(titleToId);
-		
-		// Read page-links data
-		int[] links;
-		if (!PAGE_LINKS_RAW_FILE.isFile()) {  // Read SQL and write cache
-			links = PageLinksList.readSqlFile(PAGE_LINKS_SQL_FILE, titleToId, idToTitle);
-			PageLinksList.writeRawFile(links, PAGE_LINKS_RAW_FILE);
-		} else  // Read cache
-			links = PageLinksList.readRawFile(PAGE_LINKS_RAW_FILE);
-		System.out.println("* Done indexing.");
+		titleToId = PageIdTitleMap.readSqlFile(PAGE_ID_TITLE_SQL_FILE);
+		PageIdTitleMap.writeRawFile(titleToId, PAGE_ID_TITLE_RAW_FILE);
 	}
 		
 }
