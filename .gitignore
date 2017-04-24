@@ -13,3 +13,5 @@ hs_err_pid*
 
 wikipedia-page-id-title.raw
 /bin/
+*.gz
+
