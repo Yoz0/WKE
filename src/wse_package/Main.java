@@ -1,7 +1,5 @@
 package wse_package;
 
-import static com.mongodb.client.model.Filters.regex;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,15 +10,24 @@ import org.bson.Document;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-
-import wse_package.QuerySearchEngine;
 
 import article_list_parser.ParseWiki;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
+		//connecting to database, retrieving collection
+		MongoClientURI connectionString = new MongoClientURI("mongodb://localhost:27017");
+		MongoClient mongoClient = new MongoClient(connectionString);
+		MongoDatabase database = mongoClient.getDatabase("mydb");
+		MongoCollection<Document> collection = database.getCollection("articles");
+		
+		showInterface(collection);
+		
+		mongoClient.close();
+	}
+	
+	private static void showInterface(MongoCollection<Document> collection){
 		int n = 0;
 		Boolean done = false;
 		Boolean goodInput = false;
@@ -58,19 +65,24 @@ public class Main {
 					done = true;
 					break;
 				case 1:
-					buildEngine();
+					buildEngine(collection);
 					break;
 				case 2:
-					queryInterface(br);
+					queryInterface(collection, br);
 					break;
 				default:
 					break;
 			}
 		}
-		br.close();
+		try {
+			br.close();
+		} catch (IOException e) {
+			System.out.println("Could not close buffered reader.");
+			e.printStackTrace();
+		}
 	}
 	
-	private static void buildEngine(){
+	private static void buildEngine(MongoCollection<Document> collection){
 		//Gathering list of articles
 		System.out.println("Gathering list of articles");
 		try {
@@ -82,9 +94,8 @@ public class Main {
 		//TODO: Complete this when other classes are done
 	}
 	
-	private static void queryInterface(BufferedReader br){
+	private static void queryInterface(MongoCollection<Document> collection, BufferedReader br){
 		String input = "";
-		int n = -1;
 		while(true){
 			System.out.println("Enter your query : (0 to quit)");
 			try {
@@ -97,7 +108,7 @@ public class Main {
 			if(input.equals("0")){
 				break;
 			}
-			ArrayList<Document> responses = QuerySearchEngine.search(input);
+			ArrayList<Document> responses = QuerySearchEngine.search(collection, input);
 			if(responses.size() == 0){
 				System.out.println("No result.");
 			}
