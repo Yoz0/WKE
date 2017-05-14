@@ -1,8 +1,21 @@
 package wse_package;
 
+import static com.mongodb.client.model.Filters.regex;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import org.bson.Document;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+
+import wse_package.QuerySearchEngine;
 
 import article_list_parser.ParseWiki;
 
@@ -48,7 +61,7 @@ public class Main {
 					buildEngine();
 					break;
 				case 2:
-					queryInterface();
+					queryInterface(br);
 					break;
 				default:
 					break;
@@ -69,8 +82,32 @@ public class Main {
 		//TODO: Complete this when other classes are done
 	}
 	
-	private static void queryInterface(){
-		System.out.println("Enter your query.");
-		//TODO: Complete this when other classes are done
+	private static void queryInterface(BufferedReader br){
+		String input = "";
+		int n = -1;
+		while(true){
+			System.out.println("Enter your query : (0 to quit)");
+			try {
+				input = br.readLine();
+			} catch (IOException e) {
+				System.out.println("Error while reading your entry.");
+				e.printStackTrace();
+				return;
+			}
+			if(input.equals("0")){
+				break;
+			}
+			ArrayList<Document> responses = QuerySearchEngine.search(input);
+			if(responses.size() == 0){
+				System.out.println("No result.");
+			}
+			else{
+				System.out.println(responses.size() + " results :");
+			}
+			for(Document d : responses){
+				System.out.println(d.toJson());
+			}
+		}
+		
 	}
 }
