@@ -31,7 +31,7 @@ public class QuerySearchEngine {
 		String[] listSearchTerms = searchString.split(" ");
 		ArrayList<Bson> filters = new ArrayList<Bson>();
 		for(String s : listSearchTerms){
-			filters.add(regex("name", s));
+			filters.add(Filters.regex("name", s, "i"));
 		}
 		Bson filter_and = Filters.and(filters);
 		//Bson filter_or = Filters.or(filters);
@@ -41,13 +41,13 @@ public class QuerySearchEngine {
 		MongoCursor<Document> cursor = collection.find(filter_and).iterator();
 		try {
 		    while (cursor.hasNext()) {
-		        System.out.println(cursor.next().toJson());
 		        ret.add(cursor.next());
 		    }
 		} finally {
 		    cursor.close();
 		}
 		
+		mongoClient.close();
 		return ret;
 	}
 }
