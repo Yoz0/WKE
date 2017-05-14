@@ -32,11 +32,11 @@ public class test {
 		collection.insertOne(doc);
 		Document doc2 = new Document("name", "Animal")
 				.append("list_links", Arrays.asList("Protozoaire"))
-				.append("pagerank", 1.00);
+				.append("pagerank", 2.00);
 		collection.insertOne(doc2);
 		Document doc3 = new Document("name", "Cuculidae")
 				.append("list_links", Arrays.asList("Neomorphinae"))
-				.append("pagerank", 1.00);
+				.append("pagerank", 3.00);
 		collection.insertOne(doc3);
 		
 		//find some documents
