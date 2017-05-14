@@ -1,26 +1,7 @@
 package article_list_parser;
 
-/* 
- *
- * Parse 
- * <lang>wiki-<date>-page.sql.gz
- * <lang>wiki-<date>-page-links.sql.gz
- * to produce simplified files with page ids and links
- * 
- * Extracted from the original code :
- *
- *
- * Copyright (c) 2016 Project Nayuki
- * All rights reserved. Contact Nayuki for licensing.
- * https://www.nayuki.io/page/computing-wikipedias-internal-pageranks
- */
-
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 
 
