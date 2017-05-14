@@ -24,7 +24,7 @@ public final class ParseWiki {
 	
 	/*---- Main program ----*/
 	
-	public static void main(String[] args) throws IOException {
+	public static void getListArticles() throws IOException {
 		// Create and write page-ID-title data
 		Map<String,Integer> titleToId;
 		titleToId = PageIdTitleMap.readSqlFile(PAGE_ID_TITLE_SQL_FILE);
