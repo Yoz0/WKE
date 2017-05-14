@@ -1,46 +1,63 @@
 package wse_package;
 
-import java.io.IOException;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.ServerAddress;
+import static com.mongodb.client.model.Filters.exists;
+import static com.mongodb.client.model.Filters.regex;
 
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
+import java.io.IOException;
+import java.util.Arrays;
 
 import org.bson.Document;
-import java.util.Arrays;
-import com.mongodb.Block;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import static com.mongodb.client.model.Filters.*;
-import com.mongodb.client.result.DeleteResult;
-import static com.mongodb.client.model.Updates.*;
-import com.mongodb.client.result.UpdateResult;
-import java.util.ArrayList;
-import java.util.List;
+import com.mongodb.client.MongoDatabase;
 
 public class test {
 	public static void main(String[] args) throws IOException {
-		System.out.print("coucou");
 		MongoClientURI connectionString = new MongoClientURI("mongodb://localhost:27017");
 		MongoClient mongoClient = new MongoClient(connectionString);
 		
 		MongoDatabase database = mongoClient.getDatabase("mydb");
-		MongoCollection<Document> collection = database.getCollection("test");
+		MongoCollection<Document> collection = database.getCollection("articles");
 
-//		{
-//			"name" : "MongoDB",
-//			"type" : "database",
-//			"count" : 1,
-//			"versions": [ "v3.2", "v3.0", "v2.6" ],
-//			"info" : { x : 203, y : 102 }
-//		}
-		Document doc = new Document("name", "MongoDB")
-			.append("type", "database")
-			.append("count", 1)
-			.append("versions", Arrays.asList("v3.2", "v3.0", "v2.6"))
-			.append("info", new Document("x", 203).append("y", 102));
+		//delete all documents
+		collection.deleteMany(exists("_id"));
+		
+		//insert sample documents
+		Document doc = new Document("name", "Coucou_oriental")
+			.append("list_links", Arrays.asList("Animal", "Famille_(biologie)", "Cuculidae"))
+			.append("pagerank", 1.00);
 		collection.insertOne(doc);
+		Document doc2 = new Document("name", "Animal")
+				.append("list_links", Arrays.asList("Protozoaire"))
+				.append("pagerank", 1.00);
+		collection.insertOne(doc2);
+		Document doc3 = new Document("name", "Cuculidae")
+				.append("list_links", Arrays.asList("Neomorphinae"))
+				.append("pagerank", 1.00);
+		collection.insertOne(doc3);
+		
+		//find some documents
+		MongoCursor<Document> cursor = collection.find().iterator();
+		try {
+		    while (cursor.hasNext()) {
+		        System.out.println(cursor.next().toJson());
+		    }
+		} finally {
+		    cursor.close();
+		}
+		System.out.println("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+		MongoCursor<Document> cursor2 = collection.find(regex("name", "coucou", "i")).iterator();
+		try {
+		    while (cursor2.hasNext()) {
+		        System.out.println(cursor2.next().toJson());
+		    }
+		} finally {
+		    cursor2.close();
+		}
+		
+		mongoClient.close();
 	}
 }
