@@ -1,8 +1,7 @@
 package wse_package;
 
-import static com.mongodb.client.model.Filters.regex;
-
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -47,7 +46,30 @@ public class QuerySearchEngine {
 		    cursor.close();
 		}
 		
+		//sorting
+		ret.sort(new pagerankComparator());
+		
 		mongoClient.close();
 		return ret;
+	}
+	
+	private static class pagerankComparator implements Comparator<Document>{
+		@Override
+		public int compare(Document arg0, Document arg1) {
+			Object a = arg0.get("pagerank");
+			Object b = arg1.get("pagerank");
+			if(a != null && b != null){
+				if( (double) a == (double) b ){
+					return 0;
+				}
+				else if( (double) a < (double) b ){
+					return 1;
+				}
+				else{
+					return -1;
+				}
+			}
+			return 0;
+		}
 	}
 }
