@@ -27,16 +27,16 @@ public class test {
 		
 		//insert sample documents
 		Document doc = new Document("name", "Coucou_oriental")
-			.append("list_links", Arrays.asList("Animal", "Famille_(biologie)", "Cuculidae"))
+			.append("list_links", Arrays.asList("Animal", "Cuculidae"))
 			.append("pagerank", 1.00);
 		collection.insertOne(doc);
 		Document doc2 = new Document("name", "Animal")
-				.append("list_links", Arrays.asList("Protozoaire"))
-				.append("pagerank", 2.00);
+				.append("list_links", Arrays.asList("Coucou_oriental"))
+				.append("pagerank", 1.00);
 		collection.insertOne(doc2);
 		Document doc3 = new Document("name", "Cuculidae")
-				.append("list_links", Arrays.asList("Neomorphinae"))
-				.append("pagerank", 3.00);
+				.append("list_links", Arrays.asList("Coucou_oriental"))
+				.append("pagerank", 1.00);
 		collection.insertOne(doc3);
 		
 		//find some documents
