@@ -41,6 +41,10 @@ public class Pageranker {
         throws IOException, InterruptedException {
       String pageName = pageText.toString();
       Document page = pageCollection.find(eq("name",pageName)).first();
+      if (page == null){
+        System.err.println("Page Not Found :" + pageName);
+        return;
+      }
       double pageRank = (double) page.get("pagerank");
       List<String> links = (List<String>) page.get("list_links");
       pageRankToAdd.set(pageRank / links.size());
@@ -65,6 +69,10 @@ public class Pageranker {
       }
       String pageName = pageText.toString();
       Document page = pageCollection.find(eq("name",pageName)).first();
+      if (page == null){
+        System.err.println("Page Not Found :" + pageName);
+        return;
+      }
       double updatedPageRank = dampingValue * newPageRank + (1-dampingValue); 
       pageCollection.updateOne(eq("name",pageName),
           set("pagerank",updatedPageRank));
