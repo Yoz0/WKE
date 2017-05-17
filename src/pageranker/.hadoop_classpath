@@ -1,0 +1,3 @@
+PATH_TO_DRIVER=$(pwd)/../../mongodb\ driver;
+echo $PATH_TO_DRIVER;
+export HADOOP_CLASSPATH=$JAVA_HOME/lib/tools.jar:${PATH_TO_DRIVER}/bson-3.4.2.jar:${PATH_TO_DRIVER}/mongo-java-driver-3.4.2.jar
