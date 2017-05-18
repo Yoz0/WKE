@@ -1,5 +1,5 @@
-# WebSearchEngine
-An humble web search engine using the CommonCrawl data (https://commoncrawl.org/)
+# WikiSerachEngne
+An humble web search engine using the wikipedia API. Avaible on (https://github.com/Yoz0/WSE).
 
 # How to use
 Be sure to install mongoDB server and be sure that is is running.
@@ -34,3 +34,9 @@ the WSE/src/pageranker/out/ folder
 Run the wse\_package.Main classe, you'll see a prompt choose 2 to query the
 database.
 
+# Credits
+This is a school project, done in 2017 at ENSIIE Strasbourg by :
+* Pierre-Olivier Gendraud
+* Clément Saintier
+* Clément Floquet
+* Stéphane Kastenbaum
