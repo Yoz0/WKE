@@ -116,7 +116,8 @@ public class Main {
 				System.out.println(responses.size() + " results :");
 			}
 			for(Document d : responses){
-				System.out.println(d.toJson());
+				System.out.print(d.get("pagerank") + " ");
+				System.out.println(d.get("name"));
 			}
 		}
 	}
