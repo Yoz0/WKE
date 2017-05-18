@@ -126,7 +126,7 @@ public class Pageranker {
       MongoClient mongoClient = new MongoClient(connectionString);
       MongoDatabase database = mongoClient.getDatabase("mydb");
       setCollection(database.getCollection("articles"));
-      setListArticles("wikipedia-page-id-title.raw");
+      setListArticles("../../wikipedia-page-id-title.raw");
     }
     else if (otherArgs.length == 4) {
       MongoClientURI connectionString = new MongoClientURI(otherArgs[0]);
